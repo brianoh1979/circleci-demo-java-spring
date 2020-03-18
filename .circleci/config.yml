@@ -1,4 +1,4 @@
-#Comment to repo ticket
+#Comment to repo ticket and running on Server environment
 version: 2
 jobs:
   build:
@@ -66,9 +66,9 @@ jobs:
           command:
             ./gradlew jacocoTestReport
       - store_test_results:
-          path: build/test-results/test
+          path: build/testresults/test
       - store_artifacts:
-          path: build/test-results/test
+          path: build/testresults/test
           when: always
       - store_artifacts:
           path: build/reports/jacoco/test/html
