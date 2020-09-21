@@ -1,4 +1,4 @@
-#Comment to repo ticket and running on Server environment
+#Comment to get running on Server environment
 version: 2
 jobs:
   build:
