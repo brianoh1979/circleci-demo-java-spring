@@ -27,9 +27,9 @@ jobs:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle" }}
       - persist_to_workspace:
-          root: workspace
+          root: build
           paths:
-            - build
+            - workspace
   test:
     # Remove if parallelism is not desired
     parallelism: 2
@@ -46,7 +46,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/workspace
+          at: /tmp/build
       - run:
           name: Run tests in parallel
           # Use "./gradlew test" instead if tests are not run in parallel
