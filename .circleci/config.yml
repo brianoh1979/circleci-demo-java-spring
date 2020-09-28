@@ -10,6 +10,7 @@ jobs:
       - image: circleci/openjdk:11.0.3-jdk-stretch
     steps:
       - checkout
+      - run: mkdir -p workspace
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
@@ -26,7 +27,7 @@ jobs:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle" }}
       - persist_to_workspace:
-          root: .
+          root: workspace
           paths:
             - build
   test:
@@ -45,7 +46,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: .
+          at: /tmp/workspace
       - run:
           name: Run tests in parallel
           # Use "./gradlew test" instead if tests are not run in parallel
