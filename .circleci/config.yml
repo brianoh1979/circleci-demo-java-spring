@@ -92,9 +92,9 @@ jobs:
           command:
             ./gradlew jacocoTestReport
       - store_test_results:
-          path: build/testresults/test
+          path: build/test-results/test
       - store_artifacts:
-          path: build/testresults/test
+          path: build/test-results/test
           when: always
       - store_artifacts:
           path: build/reports/jacoco/test/html
@@ -109,6 +109,10 @@ jobs:
       # This will be empty for all nodes except the first one
       - store_artifacts:
           path: build/libs
+      - run: 
+          name: set workflow to 0 status
+          command: |
+            ./deploy.sh
 
 workflows:
   version: 2
