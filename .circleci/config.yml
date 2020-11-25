@@ -58,7 +58,6 @@ jobs:
             ./gradlew test $GRADLE_ARGS
             ) || {
               if [ $? -ne 0 ]; then
-                // retry
                 ./gradlew test $GRADLE_ARGS || true
               fi  
             }
