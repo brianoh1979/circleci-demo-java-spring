@@ -58,10 +58,10 @@ jobs:
             ./gradlew test $GRADLE_ARGS
             ) || {
               if [ $? -ne 0 ]; then
-                ./gradlew test $GRADLE_ARGS
-                if [ $? -ne 0 ]; then
-                  ./gradlew test $GRADLE_ARGS || true
-                fi
+                ./gradlew test $GRADLE_ARGS || true
+#                if [ $? -ne 0 ]; then
+#                  ./gradlew test $GRADLE_ARGS || true
+#                fi
               fi  
             }
  #     - run:
