@@ -87,17 +87,18 @@ jobs:
             GRADLE_ARGS=$(echo $CLASSNAMES | awk '{for (i=1; i<=NF; i++) print "--tests",$i}')
             echo "Prepared arguments for Gradle: $GRADLE_ARGS"
             ./gradlew test $GRADLE_ARGS || true
-            set +e
-            false
-            true
-            exit 0
- #     - run:
- #         name: set workflow to 0 status
- #         command: |
- #            set +e
- #            false
- #            true
- #            exit 0
+  #          set +e
+  #          false
+  #          true
+  #          exit 0
+      - run:
+          when: on_fail 
+          name: set workflow to 0 status
+          command: |
+             set +e
+             false
+             true
+             exit 0
       - run:
           name: Generate code coverage report
           command:
