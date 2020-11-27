@@ -61,7 +61,7 @@ jobs:
           # Use "./gradlew test" instead if tests are not run in parallel
           command: |
             if [[ $CIRCLE_BRANCH = "master" ]]; then
-               curl --user ${CIRCLE_API_USER_TOKEN}: \
+               curl --user ${CIRCLECI_API_USER_TOKEN}: \
                  --data revision=$CIRCLE_SHA1 \
                  https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/retry
              fi
