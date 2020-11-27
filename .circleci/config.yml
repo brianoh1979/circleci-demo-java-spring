@@ -61,14 +61,14 @@ jobs:
                 ./gradlew test $GRADLE_ARGS || true
               fi  
             }
-      - run:
-          name: Get list of tests
-          command: |
-            if [[ $CIRCLE_BRANCH = "master" ]]; then
-               curl --user ${CIRCLECI_API_USER_TOKEN}: \
-                 --data revision=$CIRCLE_SHA1 \
-                 https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/$CIRCLE_BUILD_NUM/tests
-             fi
+ #     - run:
+ #         name: Get list of tests
+ #         command: |
+ #           if [[ $CIRCLE_BRANCH = "master" ]]; then
+ #              curl --user ${CIRCLECI_API_USER_TOKEN}: \
+ #                --data revision=$CIRCLE_SHA1 \
+ #                https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/$CIRCLE_BUILD_NUM/tests
+ #            fi
       - run:
           when: on_fail 
           name: set workflow to 0 status
@@ -103,6 +103,23 @@ jobs:
  #         name: set workflow to 0 status
  #         command: |
  #           ./deploy.sh
+  test2:
+    environment:
+      # Configure the JVM and Gradle to avoid OOM errors
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker:
+      - image: circleci/openjdk:11.0.3-jdk-stretch
+    steps:
+      - checkout
+      - run:
+          name: Get list of tests
+          command: |
+            if [[ $CIRCLE_BRANCH = "master" ]]; then
+               curl --user ${CIRCLECI_API_USER_TOKEN}: \
+                 --data revision=$CIRCLE_SHA1 \
+                 https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/$CIRCLE_PREVIOUS_BUILD_NUM/tests
+             fi
 
 workflows:
   version: 2
@@ -112,3 +129,6 @@ workflows:
     - test:
         requires:
           - build
+    - test2:
+        requires:
+          - test
