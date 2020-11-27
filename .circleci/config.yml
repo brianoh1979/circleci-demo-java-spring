@@ -66,7 +66,6 @@ jobs:
           command: |
             if [[ $CIRCLE_BRANCH = "master" ]]; then
                curl --user ${CIRCLECI_API_USER_TOKEN}: \
-                 --data revision=$CIRCLE_SHA1 \
                  https://circleci.com/api/v2/project/gh/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/tests
              fi
       - run:
