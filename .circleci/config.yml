@@ -13,6 +13,8 @@ jobs:
       - run: |
             if [ "$brian" = "brian2" ]; then
                 echo "This step can be run"
+            else
+                echo "I can't read variable"
             fi
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
