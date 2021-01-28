@@ -21,7 +21,7 @@ jobs:
                       - yarn-deps
             - run:
                   name: yarn install
-                  command: yarn install
+                  command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn 
             - save_cache:
                   paths:
                       - node_modules
