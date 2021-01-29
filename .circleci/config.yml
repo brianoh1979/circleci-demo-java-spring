@@ -39,15 +39,26 @@ jobs:
               auth:
                 username: $DOCKERHUB_USERNAME
                 password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        environment:
+          CACHE_IMAGE: brianoh1979/nodejs-circleci
+          DOCKER_BUILDKIT: 1
         working_directory: /mnt/ramdisk
         steps:
             - attach_workspace:
                   at: /mnt/ramdisk
             - run:
-                  name: Production build
-                  command: |
-                      export __BUILD_VERSION="$(cat version.txt)"
-                      yarn build
+                name: Build from dockerfile
+                command: |
+                  docker build \
+                    --cache-from $CACHE_IMAGE:latest \
+                    --tag $CACHE_IMAGE:latest \
+                    --build-arg BUILDKIT_INLINE_CACHE=1 \
+                    "."
+#            - run:
+#                  name: Production build
+#                  command: |
+#                      export __BUILD_VERSION="$(cat version.txt)"
+#                      yarn build
             - store_artifacts:
                   path: dist/server.js
             - persist_to_workspace:
@@ -68,7 +79,7 @@ jobs:
             - run:
                   name: Setup __BUILD_VERSION envvar
                   command: |
-                      echo "export __BUILD_VERSION=\"$(cat version.txt)\"" >> $BASH_ENV
+                      echo "export __BUILD_VERSION=\"$(date)\"" >> $BASH_ENV
             - docker/check:
                   registry: $DOCKER_REGISTRY
             - docker/build:
@@ -91,14 +102,14 @@ jobs:
         steps:
             - attach_workspace:
                   at: /mnt/ramdisk
-            - run:
-                  name: Run tests
-                  command: |
-                      circleci tests glob '**/*.test.ts' | circleci tests split --split-by timings | xargs yarn test:ci
-            - store_artifacts:
-                  path: test-results
-            - store_test_results:
-                  path: test-results
+  #          - run:
+  #                name: Run tests
+  #                command: |
+  #                    circleci tests glob '**/*.test.ts' | circleci tests split --split-by timings | xargs yarn test:ci
+  #          - store_artifacts:
+  #                path: test-results
+  #          - store_test_results:
+  #                path: test-results
 
     deploy-docker-image:
         machine:
@@ -109,7 +120,7 @@ jobs:
             - run:
                   name: Setup __BUILD_VERSION envvar
                   command: |
-                      echo "export __BUILD_VERSION=\"$(cat version.txt)\"" >> $BASH_ENV
+                      echo "export __BUILD_VERSION=\"$(date)\"" >> $BASH_ENV
             - docker/check:
                   registry: $DOCKER_REGISTRY
             - docker/pull:
