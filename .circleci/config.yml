@@ -43,7 +43,7 @@ jobs:
             - run:
                 name: Build from dockerfile
                 command: |
-                  docker build \
+                  sudo docker build \
                     --cache-from $CACHE_IMAGE:latest \
                     --tag $CACHE_IMAGE:latest \
                     --build-arg BUILDKIT_INLINE_CACHE=1 \
