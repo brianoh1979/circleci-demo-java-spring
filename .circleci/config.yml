@@ -7,10 +7,10 @@ jobs:
     prepare-dependencies:
         docker:
             - image: node:current-alpine
-              working_directory: /mnt/ramdisk
               auth:
                 username: $DOCKERHUB_USERNAME
                 password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        working_directory: /mnt/ramdisk
         steps:
             - checkout
             - run:
@@ -36,10 +36,10 @@ jobs:
     build-production:
         docker:
             - image: node:current-alpine
-              working_directory: /mnt/ramdisk
               auth:
                 username: $DOCKERHUB_USERNAME
                 password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        working_directory: /mnt/ramdisk
         steps:
             - attach_workspace:
                   at: /mnt/ramdisk
@@ -83,10 +83,10 @@ jobs:
     test:
         docker:
             - image: node:current-alpine
-              working_directory: /mnt/ramdisk
               auth:
                 username: $DOCKERHUB_USERNAME
                 password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        working_directory: /mnt/ramdisk
         parallelism: 2
         steps:
             - attach_workspace:
