@@ -135,13 +135,13 @@ workflows:
             - build-production:
                   requires:
                       - prepare-dependencies
-            - build-docker-image:
-                  requires:
-                      - build-production
+ #           - build-docker-image:
+ #                 requires:
+ #                     - build-production
             - test:
                   requires:
                       - prepare-dependencies
-            - deploy-docker-image:
-                  requires:
-                      - build-docker-image
-                      - test
+ #           - deploy-docker-image:
+ #                 requires:
+ #                     - build-docker-image
+ #                     - test
