@@ -7,6 +7,7 @@ jobs:
     prepare-dependencies:
         docker:
             - image: node:current-alpine
+              working_directory: /mnt/ramdisk
               auth:
                 username: $DOCKERHUB_USERNAME
                 password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
@@ -28,19 +29,20 @@ jobs:
             - store_artifacts:
                   path: yarn.lock
             - persist_to_workspace:
-                  root: .
+                  root: /mnt/ramdisk
                   paths:
-                      - .
+                      - ./*
 
     build-production:
         docker:
             - image: node:current-alpine
+              working_directory: /mnt/ramdisk
               auth:
                 username: $DOCKERHUB_USERNAME
                 password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
         steps:
             - attach_workspace:
-                  at: .
+                  at: /mnt/ramdisk
             - run:
                   name: Production build
                   command: |
@@ -49,16 +51,20 @@ jobs:
             - store_artifacts:
                   path: dist/server.js
             - persist_to_workspace:
-                  root: .
+                  root: /mnt/ramdisk
                   paths:
-                      - .
+                      - ./*
+ #           - persist_to_workspace:
+ #                 root: .
+ #                 paths:
+ #                     - .
 
     build-docker-image:
         machine:
             image: ubuntu-1604:202004-01
         steps:
             - attach_workspace:
-                  at: .
+                  at: /mnt/ramdisk
             - run:
                   name: Setup __BUILD_VERSION envvar
                   command: |
@@ -77,13 +83,14 @@ jobs:
     test:
         docker:
             - image: node:current-alpine
+              working_directory: /mnt/ramdisk
               auth:
                 username: $DOCKERHUB_USERNAME
                 password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
         parallelism: 2
         steps:
             - attach_workspace:
-                  at: .
+                  at: /mnt/ramdisk
             - run:
                   name: Run tests
                   command: |
@@ -98,7 +105,7 @@ jobs:
             image: ubuntu-1604:202004-01
         steps:
             - attach_workspace:
-                  at: .
+                  at: /mnt/ramdisk
             - run:
                   name: Setup __BUILD_VERSION envvar
                   command: |
