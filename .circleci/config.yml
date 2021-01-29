@@ -6,10 +6,7 @@ orbs:
 jobs:
     prepare-dependencies:
         docker:
-            - image: node:current-alpine
-              auth:
-                username: $DOCKERHUB_USERNAME
-                password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+            - image: circleci/node:stretch
         working_directory: /mnt/ramdisk
         steps:
             - checkout
@@ -35,10 +32,7 @@ jobs:
 
     build-production:
         docker:
-            - image: node:current-alpine
-              auth:
-                username: $DOCKERHUB_USERNAME
-                password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+            - image: circleci/node:stretch
         environment:
           CACHE_IMAGE: brianoh1979/nodejs-circleci
           DOCKER_BUILDKIT: 1
@@ -93,10 +87,7 @@ jobs:
 
     test:
         docker:
-            - image: node:current-alpine
-              auth:
-                username: $DOCKERHUB_USERNAME
-                password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+            - image: circleci/node:stretch
         working_directory: /mnt/ramdisk
         parallelism: 2
         steps:
