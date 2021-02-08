@@ -36,7 +36,6 @@ jobs:
         environment:
           CACHE_IMAGE: brianoh1979/nodejs-circleci
           DOCKER_BUILDKIT: 1
-        working_directory: /mnt/ramdisk
         steps:
             - attach_workspace:
                   at: /mnt/ramdisk
@@ -59,7 +58,6 @@ jobs:
             - store_artifacts:
                   path: dist/server.js
             - persist_to_workspace:
-                  root: /mnt/ramdisk
                   paths:
                       - ./*
  #           - persist_to_workspace:
@@ -72,7 +70,7 @@ jobs:
             image: ubuntu-1604:202004-01
         steps:
             - attach_workspace:
-                  at: /mnt/ramdisk
+                  at: ./
             - run:
                   name: Setup __BUILD_VERSION envvar
                   command: |
@@ -91,11 +89,10 @@ jobs:
     test:
         docker:
             - image: circleci/node:stretch
-        working_directory: /mnt/ramdisk
         parallelism: 2
         steps:
             - attach_workspace:
-                  at: /mnt/ramdisk
+                  at: ./
   #          - run:
   #                name: Run tests
   #                command: |
@@ -110,7 +107,7 @@ jobs:
             image: ubuntu-1604:202004-01
         steps:
             - attach_workspace:
-                  at: /mnt/ramdisk
+                  at: ./
             - run:
                   name: Setup __BUILD_VERSION envvar
                   command: |
