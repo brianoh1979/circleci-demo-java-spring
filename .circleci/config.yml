@@ -51,16 +51,8 @@ jobs:
                     --tag $CACHE_IMAGE:latest \
                     --build-arg BUILDKIT_INLINE_CACHE=1 \
                     "."
-#            - run:
-#                  name: Production build
-#                  command: |
-#                      export __BUILD_VERSION="$(cat version.txt)"
-#                      yarn build
             - store_artifacts:
                   path: dist/server.js
- #           - persist_to_workspace:
- #                 paths:
- #                     - ./*
             - persist_to_workspace:
                   root: .
                   paths:
@@ -108,8 +100,8 @@ jobs:
             - image: circleci/node:stretch
         steps:
             - attach_workspace:
-            # Must be absolute path or relative path from working_directory
-            at: /tmp/workspace
+                # Must be absolute path or relative path from working_directory
+                at: /tmp/workspace
 
             - run: |
                 if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
