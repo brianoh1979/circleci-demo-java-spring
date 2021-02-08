@@ -33,6 +33,7 @@ jobs:
     build-production:
         docker:
             - image: circleci/node:stretch
+        working_directory: /mnt/ramdisk
         environment:
           CACHE_IMAGE: brianoh1979/nodejs-circleci
           DOCKER_BUILDKIT: 1
@@ -42,7 +43,6 @@ jobs:
             - setup_remote_docker:
                 version: 19.03.13
                 docker_layer_caching: false
-            - run: mkdir -p workspace
             - run:
                 name: Build from dockerfile
                 command: |
