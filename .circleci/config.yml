@@ -51,6 +51,8 @@ jobs:
     test:
       machine: true
       steps:
+        - attach_workspace:
+            at: /mnt/ramdisk
         - run: mkdir -p workspace
         - run: echo "Hello, world!" > workspace/echo-output
         - persist_to_workspace:
