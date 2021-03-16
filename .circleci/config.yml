@@ -30,6 +30,7 @@ jobs:
     build-production:
         docker:
             - image: brianoh1979/nodejs-circleci
+        resource_class: large
         steps:
  #           - run: mkdir /tmp/workspace
             - attach_workspace:
