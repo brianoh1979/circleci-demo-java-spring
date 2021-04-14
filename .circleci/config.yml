@@ -30,6 +30,7 @@ jobs:
     build-production:
         docker:
             - image: brianoh1979/nodejs-circleci
+            - image: circleci/node:stretch
         resource_class: large
         steps:
  #           - run: mkdir /tmp/workspace
@@ -38,12 +39,12 @@ jobs:
             - setup_remote_docker:
                 version: 19.03.13
                 docker_layer_caching: false
-            - run:
-                name: Build from dockerfile
-                command: |
-                  docker build . 
-            - store_artifacts:
-                  path: dist/server.js
+ #           - run:
+ #               name: Build from dockerfile
+ #               command: |
+ #                 docker build . 
+ #           - store_artifacts:
+ #                 path: dist/server.js
             - persist_to_workspace:
                   root: ~/
                   paths:
