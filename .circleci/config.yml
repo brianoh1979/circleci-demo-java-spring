@@ -29,8 +29,8 @@ jobs:
 
     build-production:
         docker:
-            - image: brianoh1979/nodejs-circleci
             - image: circleci/node:stretch
+            - image: brianoh1979/nodejs-circleci
         resource_class: large
         steps:
  #           - run: mkdir /tmp/workspace
