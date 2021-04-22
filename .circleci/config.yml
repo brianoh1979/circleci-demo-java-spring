@@ -88,7 +88,7 @@ jobs:
                   echo "Nope!"; exit 1
                 fi
 
-     test3:
+    test3:
         docker:
             - image: $DOCKERHUB_USERNAME/circleci-demo-docker4:$CIRCLE_SHA1
         steps:
