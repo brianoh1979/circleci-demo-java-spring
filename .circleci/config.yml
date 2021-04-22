@@ -48,6 +48,10 @@ jobs:
                     --tag $CACHE_IMAGE:latest \
                     --build-arg BUILDKIT_INLINE_CACHE=1 \
                     "."
+            - run: |
+                  docker build -t $DOCKERHUB_USERNAME/circleci-demo-docker4 -t $DOCKERHUB_USERNAME/circleci-demo-docker4:$CIRCLE_SHA1 .
+                  echo $DOCKERHUB_PASSWORDD | docker login -u $DOCKERHUB_USERNAME --password-stdin 
+                  docker push $DOCKERHUB_USERNAME/circleci-demo-docker4:$CIRCLE_SHA1
             - store_artifacts:
                   path: dist/server.js
             - persist_to_workspace:
@@ -84,6 +88,12 @@ jobs:
                   echo "Nope!"; exit 1
                 fi
 
+     test3:
+        docker:
+            - image: $DOCKERHUB_USERNAME/circleci-demo-docker4:$CIRCLE_SHA1
+        steps:
+            - run: echo "Hello from the custom image!!"
+
 workflows:
     version: 2
     build-test-deploy:
@@ -98,3 +108,6 @@ workflows:
             - test2:
                   requires:
                       - test
+            - test3:
+                  requires:
+                      - build-production
