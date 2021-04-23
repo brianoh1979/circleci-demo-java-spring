@@ -64,7 +64,7 @@ jobs:
                       --request POST https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
                       --header 'content-type: application/json' \
                       --data "{\"name\":\"$value1\", \"value\":\"$CIRCLE_SHA1\"}"
-                    sleep 5
+                    sleep 10
                     echo $BUILD_IMAGE_TAG
                   fi
                   docker build -t $DOCKERHUB_USERNAME/circleci-demo-docker4 -t $DOCKERHUB_USERNAME/circleci-demo-docker4:$BUILD_IMAGE_TAG .
