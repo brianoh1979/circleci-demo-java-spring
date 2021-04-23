@@ -56,6 +56,7 @@ jobs:
                       --request POST https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
                       --header 'content-type: application/json' \
                       --data '{"name":"BUILD_IMAGE_TAG","value":"get-testilda-image-hash"}'
+                    sleep 5
                     echo $BUILD_IMAGE_TAG
                   else
                     echo "Setting BUILD_IMAGE_TAG to be the CircleCI SHA value"
@@ -63,6 +64,7 @@ jobs:
                       --request POST https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
                       --header 'content-type: application/json' \
                       --data '{"name":"BUILD_IMAGE_TAG",\"value\":[\"$CIRCLE_SHA1\"]}'
+                    sleep 5
                     echo $BUILD_IMAGE_TAG
                   fi
                   docker build -t $DOCKERHUB_USERNAME/circleci-demo-docker4 -t $DOCKERHUB_USERNAME/circleci-demo-docker4:$BUILD_IMAGE_TAG .
