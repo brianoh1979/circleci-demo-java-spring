@@ -53,16 +53,14 @@ jobs:
                   if [[ $BASE_NAME == *"testilda"* ]]; then
                     echo "Setting BUILD_IMAGE_TAG to be the testilda image hash"
                     curl --request POST \
-                      --url https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
-                      --header 'authorization: Basic REPLACE_BASIC_AUTH' \
+                      --user ${CIRCLE_API_USER_TOKEN2}:https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
                       --header 'content-type: application/json' \
                       --data '{"name":"BUILD_IMAGE_TAG","value":"get-testilda-image-hash"}'
                     echo $BUILD_IMAGE_TAG
                   else
                     echo "Setting BUILD_IMAGE_TAG to be the CircleCI SHA value"
                     curl --request POST \
-                      --url https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
-                      --header 'authorization: Basic REPLACE_BASIC_AUTH' \
+                      --user ${CIRCLE_API_USER_TOKEN2}:https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
                       --header 'content-type: application/json' \
                       --data '{"name":"BUILD_IMAGE_TAG",\"value\":[\"$CIRCLE_SHA1\"]}'
                     echo $BUILD_IMAGE_TAG
