@@ -112,6 +112,11 @@ jobs:
             - image: $DOCKERHUB_USERNAME/circleci-demo-docker4:$BUILD_IMAGE_TAG
         steps:
             - run: echo "Hello from the custom image!!"
+            - run: |
+                    echo "Removing BUILD_IMAGE_TAG envvar"
+                    curl --user ${CIRCLE_API_USER_TOKEN2}: \
+                      --request DELETE https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar/BUILD_IMAGE_TAG \
+ 
 
 workflows:
     version: 2
