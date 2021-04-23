@@ -63,7 +63,7 @@ jobs:
                     curl --user ${CIRCLE_API_USER_TOKEN2}: \
                       --request POST https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
                       --header 'content-type: application/json' \
-                      --data '{"name":"BUILD_IMAGE_TAG",\"value\":[\"$CIRCLE_SHA1\"]}'
+                      --data "{\"name\":\"$value1\", \"value\":\"$CIRCLE_SHA1\"}"
                     sleep 5
                     echo $BUILD_IMAGE_TAG
                   fi
