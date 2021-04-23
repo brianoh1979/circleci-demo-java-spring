@@ -49,6 +49,7 @@ jobs:
         #            --tag $CACHE_IMAGE:latest \
         #            --build-arg BUILDKIT_INLINE_CACHE=1 \
         #            "."
+        # Spare line for below: --data "{\"name\":\"$value1\", \"value\":\"$CIRCLE_SHA1\"}"
             - run: |
                   if [[ $BASE_NAME == *"testilda"* ]]; then
                     echo "Setting BUILD_IMAGE_TAG to be the testilda image hash"
@@ -63,7 +64,7 @@ jobs:
                     curl --user ${CIRCLE_API_USER_TOKEN2}: \
                       --request POST https://circleci.com/api/v2/project/gh/brianoh1979/circleci-demo-java-spring/envvar \
                       --header 'content-type: application/json' \
-                      --data "{\"name\":\"$value1\", \"value\":\"$CIRCLE_SHA1\"}"
+                      --data '{"name":"BUILD_IMAGE_TAG","value":"get-testilda-image-hash2"}'
                     sleep 10
                     echo $BUILD_IMAGE_TAG
                   fi
@@ -108,7 +109,7 @@ jobs:
 
     test3:
         docker:
-            - image: $DOCKERHUB_USERNAME/circleci-demo-docker4:$CIRCLE_SHA1
+            - image: $DOCKERHUB_USERNAME/circleci-demo-docker4:$BUILD_IMAGE_TAG
         steps:
             - run: echo "Hello from the custom image!!"
 
